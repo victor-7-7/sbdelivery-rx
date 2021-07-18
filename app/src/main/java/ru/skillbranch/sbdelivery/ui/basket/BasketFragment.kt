@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import io.reactivex.rxjava3.disposables.Disposable
 import org.koin.android.ext.android.inject
 import ru.skillbranch.sbdelivery.core.notifier.BasketNotifier
 import ru.skillbranch.sbdelivery.core.notifier.event.BasketEvent
@@ -15,7 +16,7 @@ class BasketFragment : Fragment() {
         fun newInstance() = BasketFragment()
     }
 
-    private var basketDishes: ArrayList<String> = ArrayList()
+    private lateinit var ds: Disposable
 
     private val notifier: BasketNotifier by inject()
 
@@ -29,12 +30,17 @@ class BasketFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        notifier.eventSubscribe()
+        ds = notifier.eventSubscribe()
             .subscribe {
                 if (it is BasketEvent.AddDish) {
                     val str = "${binding.tvDishes.text}\n\n ${it.title} стоимость ${it.price}"
                     binding.tvDishes.text = str
                 }
             }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (!ds.isDisposed) ds.dispose()
     }
 }
