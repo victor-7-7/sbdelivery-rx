@@ -10,13 +10,15 @@ class SearchUseCaseImpl(private val repository: DishesRepositoryContract) : Sear
 
     override fun getDishes(): Single<List<DishEntity>> = repository.getCachedDishes()
 
-
     override fun findDishesByName(searchText: String): Observable<List<DishEntity>> =
-        repository.getCachedDishes().toObservable()
+        // Вариант 1. Получаем из БД все блюда, затем фильтруем по паттерну
+        /*repository.getCachedDishes().toObservable()
             .map { dishes ->
                 dishes.filter {
                     it.title.lowercase(Locale.ROOT)
                         .contains(searchText.trim().lowercase(Locale.ROOT))
                 }
-            }
+            }*/
+        // Вариант 2. Получаем из БД уже отфильтрованные по паттерну блюда
+        repository.findDishesByName(searchText)
 }

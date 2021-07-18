@@ -25,7 +25,7 @@ object AppModule {
         single { ResourceManager(context = get()) }
         single<SearchUseCase> { SearchUseCaseImpl(get()) }
         single<DishesMapper> { DishesMapperImpl() }
-        single<BasketNotifier> { BasketNotifierImpl() }
+        single<BasketNotifier> { BasketNotifierImpl(get()) }
         single { CategoriesMapper() }
     }
 
@@ -36,6 +36,6 @@ object AppModule {
 
     fun viewModelModule() = module {
         viewModel { MainViewModel(repository = get(), dishesMapper = get(), categoriesMapper = get(), notifier = get()) }
-        viewModel { SearchViewModel(useCase = get(), mapper = get()) }
+        viewModel { SearchViewModel(useCase = get(), mapper = get(), notifier = get()) }
     }
 }

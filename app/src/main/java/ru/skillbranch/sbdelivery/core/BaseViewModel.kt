@@ -11,6 +11,8 @@ abstract class BaseViewModel : ViewModel() {
         compositeDisposable.add(this)
     }
 
+
+
     override fun onCleared() {
         compositeDisposable.clear()
         super.onCleared()

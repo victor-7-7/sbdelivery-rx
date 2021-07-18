@@ -6,6 +6,9 @@ import ru.skillbranch.sbdelivery.repository.database.entity.DishPersistEntity
 import ru.skillbranch.sbdelivery.repository.models.Dish
 
 open class DishesMapperImpl : DishesMapper {
+    /** Объекты DishEntity из списка, полученные после после преобразования
+     * данных из БД или из сети, конвертируются в объекты ProductItemState
+     * для последующего отображения информации на UI */
     override fun mapDtoToState(dishEntity: List<DishEntity>): List<ProductItemState> =
         dishEntity.map {
             ProductItemState(
@@ -17,9 +20,21 @@ open class DishesMapperImpl : DishesMapper {
             )
         }
 
+    /** Объекты Dish из списка, основанные на полученных из сети данных о блюдах,
+     * конвертируются в объекты DishEntity нового списка (с меньшим числом полей) */
     override fun mapDtoToEntity(dishesDto: List<Dish>): List<DishEntity> =
-        dishesDto.map { DishEntity(it.id ?: "", it.category ?: "", it.image ?: "", "${it.price} ₽", it.name ?: "") }
+        dishesDto.map {
+            DishEntity(
+                it.id ?: "",
+                it.category ?: "",
+                it.image ?: "",
+                "${it.price} ₽",
+                it.name ?: ""
+            )
+        }
 
+    /** Объекты Dish из списка, основанные на полученных из сети данных о блюдах,
+     * конвертируются в объекты DishPersistEntity нового списка для сохранения в БД */
     override fun mapDtoToPersist(dishesDto: List<Dish>): List<DishPersistEntity> =
         dishesDto.map {
             DishPersistEntity(
@@ -39,6 +54,17 @@ open class DishesMapperImpl : DishesMapper {
             )
         }
 
+    /** Объекты DishPersistEntity из списка, основанные на записях из таблицы
+     * dishes_table БД девайса, конвертируются в объекты DishEntity нового списка
+     * (объекты с урезанным числом полей) */
     override fun mapPersistToEntity(dishesPersist: List<DishPersistEntity>): List<DishEntity> =
-        dishesPersist.map { DishEntity(it.id, it.category, it.image, "${it.price} ₽", it.name) }
+        dishesPersist.map {
+            DishEntity(
+                it.id,
+                it.category,
+                it.image,
+                "${it.price} ₽",
+                it.name
+            )
+        }
 }

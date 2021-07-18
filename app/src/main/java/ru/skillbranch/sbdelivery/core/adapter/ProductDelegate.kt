@@ -8,7 +8,8 @@ import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.databinding.ItemProductBinding
 
 class ProductDelegate {
-
+    // https://medium.com/@cryptograph2013/перевод-статьи-великолепный-побег-джо-из-кромешного-ада-адаптеров-bb50f8389f69
+    // https://github.com/sockeqwe/AdapterDelegates
     fun createAdapter(addClick: (ProductItemState) -> Unit) =
         ListDelegationAdapter(productItem(addClick))
 

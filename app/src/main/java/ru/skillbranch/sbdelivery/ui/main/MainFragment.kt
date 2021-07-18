@@ -5,7 +5,6 @@ import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_main.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.skillbranch.sbdelivery.R
 import ru.skillbranch.sbdelivery.core.adapter.CategoriesDelegate
@@ -33,7 +32,7 @@ class MainFragment : Fragment() {
 
     private val categoriesAdapter by lazy {
         CategoriesDelegate().createAdapter {
-            // TODO handle click
+            viewModel.handleCategorySelection(it)
         }
     }
 
@@ -54,7 +53,7 @@ class MainFragment : Fragment() {
         binding.btnRetry.setOnClickListener {
             viewModel.loadDishes()
         }
-        btnBasket.setOnClickListener {
+        binding.btnBasket.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.container, BasketFragment.newInstance())
                 .addToBackStack(null)
@@ -67,12 +66,16 @@ class MainFragment : Fragment() {
 
         binding.rvProductGrid.isVisible = state is MainState.Result
         binding.rvCategories.isVisible = state is MainState.Result && state.categories.isNotEmpty()
+
         binding.toolbar.isVisible = state is MainState.Result
+
         binding.tvErrorMessage.isVisible = state is MainState.Error
         binding.btnRetry.isVisible = state is MainState.Error
+
         if (state is MainState.Result) {
-            btnBasket.isVisible = true
+            binding.btnBasket.isVisible = true
             categoriesAdapter.items = state.categories
+            categoriesAdapter.notifyDataSetChanged()
             productAdapter.items = state.productItems
             productAdapter.notifyDataSetChanged()
         } else if (state is MainState.Error) {
@@ -95,7 +98,6 @@ class MainFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
-
     }
 
     override fun onDestroyView() {

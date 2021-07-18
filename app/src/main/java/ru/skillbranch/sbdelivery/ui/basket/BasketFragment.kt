@@ -33,7 +33,6 @@ class BasketFragment : Fragment() {
                     val str = "${binding.tvDishes.text}\n\n ${it.title} стоимость ${it.price}"
                     binding.tvDishes.text = str
                 }
-
             }
     }
 }

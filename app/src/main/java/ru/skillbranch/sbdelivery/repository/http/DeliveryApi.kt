@@ -21,7 +21,7 @@ interface DeliveryApi {
     ): Single<List<Dish>>
 
     @GET("categories")
-    @Headers("If-Modified-Since: Mon, 1 Jun 2020 08:00:00 GMT")
+    @Headers("If-Modified-Since: 0")
     fun getCategories(
         @Query("offset") offset: Int,
         @Query("limit") limit: Int,
