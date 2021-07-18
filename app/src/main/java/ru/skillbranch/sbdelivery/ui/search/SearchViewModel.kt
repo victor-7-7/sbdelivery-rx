@@ -27,7 +27,13 @@ class SearchViewModel(
     fun initState() {
         // Извлекаем блюда из БД девайса
         useCase.getDishes()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { action.value = SearchState.Loading }
+            .observeOn(Schedulers.io())
+            // Иммитируем задержку при загрузке для тестов
+            .delay(800L, TimeUnit.MILLISECONDS)
             .map { dishes -> mapper.mapDtoToState(dishes) }
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 val newState = SearchState.Result(it)
                 action.value = newState
