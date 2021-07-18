@@ -6,7 +6,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.skillbranch.sbdelivery.domain.entity.DishEntity
 import ru.skillbranch.sbdelivery.repository.database.dao.DishesDao
-import ru.skillbranch.sbdelivery.repository.database.entity.DishBasketEntity
 import ru.skillbranch.sbdelivery.repository.database.entity.DishPersistEntity
 import ru.skillbranch.sbdelivery.repository.http.DeliveryApi
 import ru.skillbranch.sbdelivery.repository.http.client.DeliveryRetrofitProvider
@@ -51,20 +50,5 @@ class DishesRepository(
     // поисковому запросу (в своем имени)
     override fun findDishesByName(searchText: String): Observable<List<DishEntity>> =
          dishesDao.findDishesByName(searchText)
-
-    // Сохраняем добавленное в корзину блюдо в БД девайса
-    override fun addBasketDish(dish: DishBasketEntity) {
-        dishesDao.insertBasketDish(dish)
-            // Если не подписываться, то словим ошибку
-            // Cannot access database on the main thread...
-            .subscribeOn(Schedulers.io())
-            .subscribe()
-    }
-
-    // Получаем из БД девайса список блюд из корзины
-    override fun getBasketDishes(): Single<List<DishBasketEntity>> =
-        dishesDao.getBasketDishes()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
 
 }

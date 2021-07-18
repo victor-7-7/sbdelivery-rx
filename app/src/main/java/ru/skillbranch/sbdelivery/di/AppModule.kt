@@ -25,7 +25,7 @@ object AppModule {
         single { ResourceManager(context = get()) }
         single<SearchUseCase> { SearchUseCaseImpl(get()) }
         single<DishesMapper> { DishesMapperImpl() }
-        single<BasketNotifier> { BasketNotifierImpl(get()) }
+        single<BasketNotifier> { BasketNotifierImpl() }
         single { CategoriesMapper() }
     }
 

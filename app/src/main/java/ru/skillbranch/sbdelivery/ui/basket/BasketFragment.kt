@@ -15,6 +15,8 @@ class BasketFragment : Fragment() {
         fun newInstance() = BasketFragment()
     }
 
+    private var basketDishes: ArrayList<String> = ArrayList()
+
     private val notifier: BasketNotifier by inject()
 
     private var _binding: FragmentBasketBinding? = null

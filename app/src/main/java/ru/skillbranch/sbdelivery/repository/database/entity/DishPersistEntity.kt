@@ -20,10 +20,3 @@ data class DishPersistEntity(
     @ColumnInfo(name = "createdAt") val createdAt: String,
     @ColumnInfo(name = "updatedAt") val updatedAt: String
 )
-
-@Entity(tableName = "basket_table")
-data class DishBasketEntity(
-    @PrimaryKey @ColumnInfo(name = "id") val id: String,
-    @ColumnInfo(name = "title") val title: String,
-    @ColumnInfo(name = "price") val price: String
-)

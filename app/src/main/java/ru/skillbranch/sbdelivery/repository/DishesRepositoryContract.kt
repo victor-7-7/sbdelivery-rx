@@ -3,7 +3,6 @@ package ru.skillbranch.sbdelivery.repository
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import ru.skillbranch.sbdelivery.domain.entity.DishEntity
-import ru.skillbranch.sbdelivery.repository.database.entity.DishBasketEntity
 import ru.skillbranch.sbdelivery.repository.models.Category
 
 interface DishesRepositoryContract {
@@ -11,6 +10,4 @@ interface DishesRepositoryContract {
     fun getCachedDishes(): Single<List<DishEntity>>
     fun getCategories(): Single<List<Category>>
     fun findDishesByName(searchText: String): Observable<List<DishEntity>>
-    fun addBasketDish(dish: DishBasketEntity)
-    fun getBasketDishes(): Single<List<DishBasketEntity>>
 }

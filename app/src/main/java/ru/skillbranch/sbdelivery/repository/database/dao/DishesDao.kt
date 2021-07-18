@@ -4,11 +4,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import ru.skillbranch.sbdelivery.domain.entity.DishEntity
-import ru.skillbranch.sbdelivery.repository.database.entity.DishBasketEntity
 import ru.skillbranch.sbdelivery.repository.database.entity.DishPersistEntity
 
 @Dao
@@ -23,12 +21,6 @@ interface DishesDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertDishes(dishes: List<DishPersistEntity>)
-
-    @Query("SELECT * FROM basket_table")
-    fun getBasketDishes(): Single<List<DishBasketEntity>>
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertBasketDish(dish: DishBasketEntity): Completable
 
     // https://www.sqlite.org/lang_expr.html
     // https://stackoverflow.com/questions/44184769/android-room-select-query-with-like

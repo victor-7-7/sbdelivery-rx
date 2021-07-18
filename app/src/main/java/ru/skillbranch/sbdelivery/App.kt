@@ -24,8 +24,7 @@ class App : Application() {
                 listOf(
                     AppModule.appModule(),
                     AppModule.databaseModule(),
-                    AppModule.viewModelModule(),
-
+                    AppModule.viewModelModule()
                     )
             )
         }
